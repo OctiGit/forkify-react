@@ -7,7 +7,7 @@ import axios from "axios";
 import { API_URL, KEY } from "../../config";
 
 const recipeApi = createApi({
-  reducerPath: "recipe",
+  reducerPath: "recipeApi",
   baseQuery: fakeBaseQuery(),
   endpoints(builder) {
     return {
