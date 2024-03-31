@@ -1,48 +1,45 @@
-// import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Fraction } from "fractional";
-import { useFetchRecipeQuery } from "../store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import {
+  setRecipe,
+  updateServings,
+  addBookmark,
+  deleteBookmark,
+  setBookmarked,
+  useFetchRecipeQuery,
+} from "../store";
 
-function RecipeView() {
-  const { data, error, isFetching } = useFetchRecipeQuery(
-    "5ed6604591c37cdc054bc886"
-  );
-  const [recipe, setRecipe] = useState({});
+function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
+  const dispatch = useDispatch();
+  const { data, error, isFetching } = useFetchRecipeQuery(id);
+  const recipe = useSelector((state) => state.recipe.data);
+  console.log(recipe.id);
 
   useEffect(() => {
-    if (!isFetching && data) {
-      setRecipe((prevRecipe) => ({
-        ...prevRecipe,
-        id: data.id,
-        title: data.title,
-        publisher: data.publisher,
-        sourceUrl: data.sourceUrl,
-        image: data.image,
-        ingredients: data.ingredients,
-        servings: data.servings,
-        cookingTime: data.cookingTime,
-        ...(data.key && { key: data.key }),
-      }));
+    if (data) {
+      dispatch(setRecipe(data));
     }
-  }, [data, isFetching, setRecipe]);
+  }, [data, dispatch]);
 
   const updateServingsHandler = (newServings) => {
     if (newServings > 0) {
-      console.log(newServings);
-      const newIngredients = recipe.ingredients.map((ings) => ({
-        ...ings,
-        quantity: (ings.quantity * newServings) / recipe.servings,
-      }));
-      setRecipe({
-        ...recipe,
-        ingredients: newIngredients,
-        servings: newServings,
-      });
+      dispatch(updateServings(newServings));
     }
   };
 
+  const bookmarkHandler = () => {
+    if (!recipe.bookmarked) {
+      dispatch(addBookmark(recipe));
+      dispatch(setBookmarked(true));
+    } else {
+      dispatch(deleteBookmark(recipe.id));
+      dispatch(setBookmarked(false));
+    }
+    // update local storage with the bookmark (model.js:84)
+  };
+
   const icons = `${process.env.PUBLIC_URL}/img/icons.svg`;
-  console.log(recipe);
 
   return error ? (
     <div className="recipe">
@@ -64,7 +61,7 @@ function RecipeView() {
       </div>
     </div>
   ) : (
-    recipe.id && (
+    recipe.id === id && (
       <div className="recipe">
         <figure className="recipe__fig">
           <img src={recipe.image} alt={recipe.title} className="recipe__img" />
@@ -121,7 +118,10 @@ function RecipeView() {
               <use href={`${icons}#icon-user`}></use>
             </svg>
           </div>
-          <button className="btn--round btn--bookmark">
+          <button
+            onClick={bookmarkHandler}
+            className="btn--round btn--bookmark"
+          >
             <svg className="">
               <use
                 href={`${icons}#icon-bookmark${
