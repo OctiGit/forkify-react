@@ -1,24 +1,17 @@
 import RecipeView from "./components/RecipieView";
+import SearchView from "./components/SearchView";
 import "./styles/main.scss";
 
 function App() {
   return (
     <div className="container">
       <header className="header">
-        <img src="src/img/logo.png" alt="Logo" className="header__logo" />
-        <form className="search">
-          <input
-            type="text"
-            className="search__field"
-            placeholder="Search over 1,000,000 recipes..."
-          />
-          <button className="btn search__btn">
-            <svg className="search__icon">
-              <use href="src/img/icons.svg#icon-search"></use>
-            </svg>
-            <span>Search</span>
-          </button>
-        </form>
+        <img
+          src={`${process.env.PUBLIC_URL}/img/logo.png`}
+          alt="Logo"
+          className="header__logo"
+        />
+        <SearchView />
 
         <nav className="nav">
           <ul className="nav__list">
