@@ -14,7 +14,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
   const dispatch = useDispatch();
   const { data, error, isFetching } = useFetchRecipeQuery(id);
   const recipe = useSelector((state) => state.recipe.data);
-  console.log(recipe.id);
+  // console.log(recipe.id);
 
   useEffect(() => {
     if (data) {
