@@ -1,4 +1,7 @@
+import Navigation from "./components/Navigation";
+import PaginationView from "./components/PaginationView";
 import RecipeView from "./components/RecipieView";
+import ResultsView from "./components/ResultsView";
 import SearchView from "./components/SearchView";
 import "./styles/main.scss";
 
@@ -12,47 +15,14 @@ function App() {
           className="header__logo"
         />
         <SearchView />
-
-        <nav className="nav">
-          <ul className="nav__list">
-            <li className="nav__item">
-              <button className="nav__btn nav__btn--add-recipe">
-                <svg className="nav__icon">
-                  <use href="src/img/icons.svg#icon-edit"></use>
-                </svg>
-                <span>Add recipe</span>
-              </button>
-            </li>
-            <li className="nav__item">
-              <button className="nav__btn nav__btn--bookmarks">
-                <svg className="nav__icon">
-                  <use href="src/img/icons.svg#icon-bookmark"></use>
-                </svg>
-                <span>Bookmarks</span>
-              </button>
-              <div className="bookmarks">
-                <ul className="bookmarks__list">
-                  <div className="message">
-                    <div>
-                      <svg>
-                        <use href="src/img/icons.svg#icon-smile"></use>
-                      </svg>
-                    </div>
-                    <p>
-                      No bookmarks yet. Find a nice recipe and bookmark it :)
-                    </p>
-                  </div>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </nav>
+        <Navigation />
       </header>
       <div className="search-results">
-        <ul className="results"></ul>
-        <div className="pagination"></div>
+        <ResultsView />
+        <PaginationView />
         <p className="copyright">
-          &copy; Copyright by
+          &copy; Copyright on website project, functionality, design and Forkify
+          Api by {""}
           <a
             className="twitter-link"
             // target="_blank"
@@ -60,8 +30,14 @@ function App() {
           >
             Jonas Schmedtmann
           </a>
-          . Use for learning or your portfolio. Don't use to teach. Don't claim
-          as your own.
+          . Transpiling from Javascript to React.js by {""}
+          <a
+            className="twitter-link"
+            // target="_blank"
+            href="https://github.com/OctiGit"
+          >
+            Octavio Aicardi.
+          </a>
         </p>
       </div>
       {/* <div className="recipe">
