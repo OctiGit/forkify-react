@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { setSearchQuery } from "../store";
 import { useState } from "react";
+import { ICONS_PATH } from "../config";
 
 function SearchView() {
   const dispatch = useDispatch();
@@ -16,8 +17,6 @@ function SearchView() {
     setInputValue("");
   };
 
-  const icons = `${process.env.PUBLIC_URL}/img/icons.svg`;
-
   return (
     <form onSubmit={onSubmitHandler} className="search">
       <input
@@ -29,7 +28,7 @@ function SearchView() {
       />
       <button className="btn search__btn">
         <svg className="search__icon">
-          <use href={`${icons}#icon-search`}></use>
+          <use href={`${ICONS_PATH}#icon-search`}></use>
         </svg>
         <span>Search</span>
       </button>

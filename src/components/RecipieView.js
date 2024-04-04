@@ -9,6 +9,7 @@ import {
   setBookmarked,
   useFetchRecipeQuery,
 } from "../store";
+import { ICONS_PATH } from "../config";
 
 function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
   const dispatch = useDispatch();
@@ -39,14 +40,12 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
     // update local storage with the bookmark (model.js:84)
   };
 
-  const icons = `${process.env.PUBLIC_URL}/img/icons.svg`;
-
   return error ? (
     <div className="recipe">
       <div className="error">
         <div>
           <svg>
-            <use href={`${icons}#icon-alert-triangle`}></use>
+            <use href={`${ICONS_PATH}#icon-alert-triangle`}></use>
           </svg>
         </div>
         <p>No recipes found for your query. Please try again!</p>
@@ -56,7 +55,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
     <div className="recipe">
       <div className="spinner">
         <svg>
-          <use href={`${icons}#icon-loader`}></use>
+          <use href={`${ICONS_PATH}#icon-loader`}></use>
         </svg>
       </div>
     </div>
@@ -73,7 +72,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
         <div className="recipe__details">
           <div className="recipe__info">
             <svg className="recipe__info-icon">
-              <use href={`${icons}#icon-clock`}></use>
+              <use href={`${ICONS_PATH}#icon-clock`}></use>
             </svg>
             <span className="recipe__info-data recipe__info-data--minutes">
               {recipe.cookingTime}
@@ -82,7 +81,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
           </div>
           <div className="recipe__info">
             <svg className="recipe__info-icon">
-              <use href={`${icons}#icon-users`}></use>
+              <use href={`${ICONS_PATH}#icon-users`}></use>
             </svg>
             <span className="recipe__info-data recipe__info-data--people">
               {recipe.servings}
@@ -96,7 +95,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
                 className="btn--tiny btn--update-servings"
               >
                 <svg>
-                  <use href={`${icons}#icon-minus-circle`}></use>
+                  <use href={`${ICONS_PATH}#icon-minus-circle`}></use>
                 </svg>
               </button>
               <button
@@ -105,7 +104,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
                 className="btn--tiny btn--update-servings"
               >
                 <svg>
-                  <use href={`${icons}#icon-plus-circle`}></use>
+                  <use href={`${ICONS_PATH}#icon-plus-circle`}></use>
                 </svg>
               </button>
             </div>
@@ -115,7 +114,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
             className={`recipe__user-generated ${recipe.key ? "" : "hidden"}`}
           >
             <svg>
-              <use href={`${icons}#icon-user`}></use>
+              <use href={`${ICONS_PATH}#icon-user`}></use>
             </svg>
           </div>
           <button
@@ -124,7 +123,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
           >
             <svg className="">
               <use
-                href={`${icons}#icon-bookmark${
+                href={`${ICONS_PATH}#icon-bookmark${
                   recipe.bookmarked ? "-fill" : ""
                 }`}
               ></use>
@@ -137,7 +136,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
             {recipe.ingredients.map((ing, key) => (
               <li key={key} className="recipe__ingredient">
                 <svg className="recipe__icon">
-                  <use href={`${icons}#icon-check`}></use>
+                  <use href={`${ICONS_PATH}#icon-check`}></use>
                 </svg>
                 {ing.quantity ? (
                   <div className="recipe__quantity">
@@ -170,7 +169,7 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
           >
             <span>Directions</span>
             <svg className="search__icon">
-              <use href={`${icons}#icon-arrow-right`}></use>
+              <use href={`${ICONS_PATH}#icon-arrow-right`}></use>
             </svg>
           </a>
         </div>
