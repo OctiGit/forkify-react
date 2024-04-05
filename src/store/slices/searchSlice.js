@@ -11,12 +11,10 @@ const searchSlice = createSlice({
   },
   reducers: {
     setSearchQuery(state, action) {
-      console.log(action.payload);
       state.query = action.payload;
     },
     setSearchResults(state, action) {
       const recipes = action.payload;
-      console.log(recipes);
       state.results = recipes.map((rec) => {
         return {
           id: rec.id,

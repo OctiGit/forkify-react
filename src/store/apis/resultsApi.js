@@ -10,14 +10,12 @@ const resultsApi = createApi({
       fetchResults: builder.query({
         async queryFn(query) {
           try {
-            console.log(query);
             if (query === "") {
               return { data: null };
             } else {
               const { data } = await axios.get(
                 `${API_URL}?search=${query}&key=${KEY}`
               );
-              console.log(data);
               return { data: data.data.recipes };
             }
           } catch (error) {
