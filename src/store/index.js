@@ -25,7 +25,12 @@ setupListeners(store.dispatch);
 
 export { useFetchRecipeQuery } from "./apis/recipeApi";
 export { useFetchResultsQuery } from "./apis/resultsApi";
-export { setRecipe, updateServings, setBookmarked } from "./slices/recipeSlice";
+export {
+  setRecipe,
+  setRecipeId,
+  updateServings,
+  setBookmarked,
+} from "./slices/recipeSlice";
 export { addBookmark, deleteBookmark } from "./slices/bookmarksSlice";
 export {
   setSearchQuery,

@@ -11,11 +11,13 @@ import {
 } from "../store";
 import { ICONS_PATH } from "../config";
 
-function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
+// { id = "6186d719649f7300185d741b" }
+
+function RecipeView() {
   const dispatch = useDispatch();
-  const { data, error, isFetching } = useFetchRecipeQuery(id);
+  const recipeId = useSelector((state) => state.recipe.resultId);
+  const { data, error, isFetching } = useFetchRecipeQuery(recipeId);
   const recipe = useSelector((state) => state.recipe.data);
-  // console.log(recipe.id);
 
   useEffect(() => {
     if (data) {
@@ -59,8 +61,19 @@ function RecipeView({ id = "5ed6604591c37cdc054bc886" }) {
         </svg>
       </div>
     </div>
+  ) : !data ? (
+    <div className="recipe">
+      <div className="message">
+        <div>
+          <svg>
+            <use href={`${ICONS_PATH}#icon-smile`}></use>
+          </svg>
+        </div>
+        <p>Start by searching for a recipe or an ingredient. Have fun!</p>
+      </div>
+    </div>
   ) : (
-    recipe.id === id && (
+    recipe.id === recipeId && (
       <div className="recipe">
         <figure className="recipe__fig">
           <img src={recipe.image} alt={recipe.title} className="recipe__img" />

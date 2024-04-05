@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchResults, useFetchResultsQuery } from "../store";
+import { setRecipeId, setSearchResults, useFetchResultsQuery } from "../store";
 import { useEffect } from "react";
 import { ICONS_PATH } from "../config";
 
@@ -23,6 +23,9 @@ function ResultsView() {
 
   // const id = window.location.hash.slice(1);
   const id = null;
+  const onClickHandler = (id) => {
+    dispatch(setRecipeId(id));
+  };
 
   let content;
 
@@ -53,6 +56,7 @@ function ResultsView() {
             res.id === id ? "preview__link--active" : ""
           }`}
           href={`#${res.id}`}
+          onClick={() => onClickHandler(res.id)}
         >
           <figure className="preview__fig">
             <img src={res.image} alt={res.title} />

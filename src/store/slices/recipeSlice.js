@@ -4,6 +4,7 @@ const recipeSlice = createSlice({
   name: "recipe",
   initialState: {
     data: {},
+    resultId: "",
   },
   reducers: {
     setRecipe(state, action) {
@@ -20,8 +21,10 @@ const recipeSlice = createSlice({
       };
       state.data = recipe;
     },
+    setRecipeId(state, action) {
+      state.resultId = action.payload;
+    },
     updateServings(state, action) {
-      console.log(action.payload);
       const newIngredients = state.data.ingredients.map((ings) => ({
         ...ings,
         quantity: (ings.quantity * action.payload) / state.data.servings,
@@ -38,5 +41,6 @@ const recipeSlice = createSlice({
   },
 });
 
-export const { setRecipe, updateServings, setBookmarked } = recipeSlice.actions;
+export const { setRecipe, setRecipeId, updateServings, setBookmarked } =
+  recipeSlice.actions;
 export const recipeReducer = recipeSlice.reducer;
