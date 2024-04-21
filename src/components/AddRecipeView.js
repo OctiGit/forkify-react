@@ -44,8 +44,6 @@ function AddRecipeView() {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(values);
-    console.log(Object.entries(values));
     try {
       const ingredients = Object.entries(values)
         .filter((entry) => entry[0].startsWith("ingredient") && entry[1] !== "")

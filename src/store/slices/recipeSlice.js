@@ -22,7 +22,6 @@ const recipeSlice = createSlice({
       // };
       // state.data = recipe;
       state.data = action.payload;
-      console.log(state.data);
     },
     setRecipeId(state, action) {
       state.resultId = action.payload;
@@ -39,7 +38,6 @@ const recipeSlice = createSlice({
       };
     },
     setBookmarked(state, action) {
-      console.log(state.data);
       state.data.bookmarked = action.payload;
     },
   },

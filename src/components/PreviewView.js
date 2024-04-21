@@ -18,7 +18,6 @@ function PreviewView({
     if (bookmarkedRecipe) dispatch(setRecipe(bookmarkedRecipe));
     else dispatch(setRecipeId(id));
   };
-  console.log(userGeneratedKey);
   return (
     <li key={id} className="preview">
       {/* <li className="preview"> */}
