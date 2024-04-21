@@ -1,8 +1,4 @@
-import {
-  createApi,
-  fakeBaseQuery,
-  // fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react";
+import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import axios from "axios";
 import { API_URL, KEY } from "../../config";
 
@@ -23,11 +19,12 @@ const recipeApi = createApi({
                 id: recipe.id,
                 title: recipe.title,
                 publisher: recipe.publisher,
-                sourceUrl: recipe.source_url,
-                image: recipe.image_url,
+                source_url: recipe.source_url,
+                image_url: recipe.image_url,
                 ingredients: recipe.ingredients,
                 servings: recipe.servings,
                 cookingTime: recipe.cooking_time,
+                // bookmarked: recipe.bookmarked ? true : false,
                 ...(recipe.key && { key: recipe.key }),
               };
               return { data: newRecipe };
@@ -37,9 +34,19 @@ const recipeApi = createApi({
           }
         },
       }),
+      addRecipe: builder.mutation({
+        async queryFn(recipe) {
+          try {
+            const { data } = await axios.post(`${API_URL}?key=${KEY}`, recipe);
+            return { data: data.data.recipe };
+          } catch (error) {
+            return { error };
+          }
+        },
+      }),
     };
   },
 });
 
-export const { useFetchRecipeQuery } = recipeApi;
+export const { useFetchRecipeQuery, useAddRecipeMutation } = recipeApi;
 export { recipeApi };

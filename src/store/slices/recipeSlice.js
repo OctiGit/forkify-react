@@ -8,18 +8,21 @@ const recipeSlice = createSlice({
   },
   reducers: {
     setRecipe(state, action) {
-      const recipe = {
-        id: action.payload.id,
-        title: action.payload.title,
-        publisher: action.payload.publisher,
-        sourceUrl: action.payload.source_url,
-        image: action.payload.image,
-        ingredients: action.payload.ingredients,
-        servings: action.payload.servings,
-        cookingTime: action.payload.cooking_time,
-        ...(action.payload.key && { key: action.payload.key }),
-      };
-      state.data = recipe;
+      // const recipe = {
+      //   id: action.payload.id,
+      //   title: action.payload.title,
+      //   publisher: action.payload.publisher,
+      //   source_url: action.payload.source_url,
+      //   image_url: action.payload.image_url,
+      //   ingredients: action.payload.ingredients,
+      //   servings: action.payload.servings,
+      //   cookingTime: action.payload.cooking_time,
+      //   // bookmarked: action.payload.bookmarked ? true : false,
+      //   ...(action.payload.key && { key: action.payload.key }),
+      // };
+      // state.data = recipe;
+      state.data = action.payload;
+      console.log(state.data);
     },
     setRecipeId(state, action) {
       state.resultId = action.payload;
@@ -36,6 +39,7 @@ const recipeSlice = createSlice({
       };
     },
     setBookmarked(state, action) {
+      console.log(state.data);
       state.data.bookmarked = action.payload;
     },
   },
