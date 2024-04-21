@@ -9,7 +9,13 @@ const bookmarksSlice = createSlice({
     addBookmark(state, action) {
       // Assumption:
       // action.payload === the recipe bookmarked
-      state.data.push(action.payload);
+      const recipeToAdd = {
+        ...action.payload,
+        bookmarked: true,
+      };
+
+      state.data.push(recipeToAdd);
+      localStorage.setItem("bookmarks", JSON.stringify(state.data));
     },
     // Assumption:
     // action.payload === the id of the recipe bookmarked
@@ -19,8 +25,12 @@ const bookmarksSlice = createSlice({
       );
       state.data = updated;
     },
+    setBookmarks(state, action) {
+      state.data = action.payload;
+    },
   },
 });
 
-export const { addBookmark, deleteBookmark } = bookmarksSlice.actions;
+export const { addBookmark, deleteBookmark, setBookmarks } =
+  bookmarksSlice.actions;
 export const bookmarksReducer = bookmarksSlice.reducer;

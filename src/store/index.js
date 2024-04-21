@@ -5,12 +5,14 @@ import { bookmarksReducer } from "./slices/bookmarksSlice";
 import { recipeReducer } from "./slices/recipeSlice";
 import { searchReducer } from "./slices/searchSlice";
 import { resultsApi } from "./apis/resultsApi";
+import { pageReducer } from "./slices/pageSlice";
 
 export const store = configureStore({
   reducer: {
     recipe: recipeReducer,
     bookmarks: bookmarksReducer,
     search: searchReducer,
+    page: pageReducer,
     [recipeApi.reducerPath]: recipeApi.reducer,
     [resultsApi.reducerPath]: resultsApi.reducer,
   },
@@ -23,7 +25,7 @@ export const store = configureStore({
 
 setupListeners(store.dispatch);
 
-export { useFetchRecipeQuery } from "./apis/recipeApi";
+export { useFetchRecipeQuery, useAddRecipeMutation } from "./apis/recipeApi";
 export { useFetchResultsQuery } from "./apis/resultsApi";
 export {
   setRecipe,
@@ -31,9 +33,14 @@ export {
   updateServings,
   setBookmarked,
 } from "./slices/recipeSlice";
-export { addBookmark, deleteBookmark } from "./slices/bookmarksSlice";
+export {
+  addBookmark,
+  deleteBookmark,
+  setBookmarks,
+} from "./slices/bookmarksSlice";
 export {
   setSearchQuery,
   setSearchResults,
   setPage,
 } from "./slices/searchSlice";
+export { toggleAddRecipeWindow, setSuccessMessage } from "./slices/pageSlice";
