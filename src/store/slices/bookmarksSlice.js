@@ -24,6 +24,8 @@ const bookmarksSlice = createSlice({
         (bookmark) => bookmark.id !== action.payload
       );
       state.data = updated;
+      localStorage.removeItem("bookmarks");
+      localStorage.setItem("bookmarks", JSON.stringify(state.data));
     },
     setBookmarks(state, action) {
       state.data = action.payload;
