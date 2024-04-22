@@ -1,72 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Fraction } from "fractional";
-import { useEffect, useState } from "react";
 import {
-  setRecipe,
   updateServings,
   addBookmark,
   deleteBookmark,
   setBookmarked,
-  useFetchRecipeQuery,
 } from "../store";
-import { API_URL, ICONS_PATH, KEY } from "../config";
-import axios from "axios";
+import { ICONS_PATH } from "../config";
+import useRecipe from "../hooks/useRecipe";
 
-// { id = "6186d719649f7300185d741b" }
-
-function RecipeView({ id = "6186d719649f7300185d741b" }) {
+function RecipeView() {
   const dispatch = useDispatch();
   const recipeId = useSelector((state) => state.recipe.resultId);
-  // const { data, error, isFetching } = useFetchRecipeQuery(recipeId);
-  const recipe = useSelector((state) => state.recipe.data);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const bookmarks = useSelector((state) => state.bookmarks.data);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!recipeId) {
-          return;
-        } else {
-          setIsLoading(true);
-          const { data } = await axios.get(`${API_URL}${recipeId}?key=${KEY}`);
-          const recipe = data.data.recipe;
-          const newRecipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            source_url: recipe.source_url,
-            image_url: recipe.image_url,
-            ingredients: recipe.ingredients,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            // bookmarked: recipe.bookmarked ? true : false,
-            ...(recipe.key && { key: recipe.key }),
-          };
-          // return { data: newRecipe };
-          console.log("setRecipe", newRecipe);
-          dispatch(setRecipe(newRecipe));
-        }
-      } catch (error) {
-        // return { error };
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, [recipeId, dispatch]);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     dispatch(setRecipe(data));
-  //     if (bookmarks.some((b) => b.id === recipe.id)) {
-  //       console.log(bookmarks);
-  //       dispatch(setBookmarked(true));
-  //     } else dispatch(setBookmarked(false));
-  //   }
-  // }, [data, dispatch, recipe.id, bookmarks]);
+  const { recipe, error, isLoading } = useRecipe({ recipeId });
 
   const updateServingsHandler = (newServings) => {
     if (newServings > 0) {
@@ -82,7 +28,6 @@ function RecipeView({ id = "6186d719649f7300185d741b" }) {
       dispatch(deleteBookmark(recipe.id));
       dispatch(setBookmarked(false));
     }
-    // update local storage with the bookmark (model.js:84)
   };
 
   return error ? (
@@ -105,7 +50,6 @@ function RecipeView({ id = "6186d719649f7300185d741b" }) {
       </div>
     </div>
   ) : recipe.id ? (
-    // recipe.id === recipeId && (
     <div className="recipe">
       <figure className="recipe__fig">
         <img
@@ -136,11 +80,9 @@ function RecipeView({ id = "6186d719649f7300185d741b" }) {
             {recipe.servings}
           </span>
           <span className="recipe__info-text">servings</span>
-
           <div className="recipe__info-buttons">
             <button
               onClick={() => updateServingsHandler(recipe.servings - 1)}
-              // data-update-to={recipe.servings - 1}
               className="btn--tiny btn--update-servings"
             >
               <svg>
@@ -149,7 +91,6 @@ function RecipeView({ id = "6186d719649f7300185d741b" }) {
             </button>
             <button
               onClick={() => updateServingsHandler(recipe.servings + 1)}
-              // data-update-to={recipe.servings + 1}
               className="btn--tiny btn--update-servings"
             >
               <svg>
@@ -158,7 +99,6 @@ function RecipeView({ id = "6186d719649f7300185d741b" }) {
             </button>
           </div>
         </div>
-
         <div className={`recipe__user-generated ${recipe.key ? "" : "hidden"}`}>
           <svg>
             <use href={`${ICONS_PATH}#icon-user`}></use>
@@ -174,6 +114,7 @@ function RecipeView({ id = "6186d719649f7300185d741b" }) {
           </svg>
         </button>
       </div>
+
       <div className="recipe__ingredients">
         <h2 className="heading--2">Recipe ingredients</h2>
         <ul className="recipe__ingredient-list">
@@ -219,7 +160,6 @@ function RecipeView({ id = "6186d719649f7300185d741b" }) {
       </div>
     </div>
   ) : (
-    // ) : !data ? (
     <div className="recipe">
       <div className="message">
         <div>
