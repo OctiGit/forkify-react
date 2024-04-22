@@ -6,12 +6,13 @@ import PreviewView from "./PreviewView";
 function Navigation() {
   const dispatch = useDispatch();
   const bookmarks = useSelector((state) => state.bookmarks.data);
-  const { resultId } = useSelector((state) => state.recipe);
+  const recipe = useSelector((state) => state.recipe.data);
 
   const onClickHandler = () => {
     dispatch(toggleAddRecipeWindow());
     dispatch(setSuccessMessage(""));
   };
+
   return (
     <nav className="nav">
       <ul className="nav__list">
@@ -39,7 +40,7 @@ function Navigation() {
                 bookmarks.map(({ id, image_url, title, publisher, key }) => (
                   <PreviewView
                     id={id}
-                    active={id === resultId}
+                    active={id === recipe.id}
                     image={image_url}
                     title={title}
                     publisher={publisher}

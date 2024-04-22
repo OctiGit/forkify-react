@@ -11,7 +11,7 @@ function ResultsView() {
   const searchResults = useSelector((state) => state.search.results);
   const page = useSelector((state) => state.search.page);
   const resultsPerPage = useSelector((state) => state.search.resultsPerPage);
-  const { resultId } = useSelector((state) => state.recipe);
+  const recipe = useSelector((state) => state.recipe.data);
   // const { data, error, isFetching } = useFetchResultsQuery(searchQuery);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +92,8 @@ function ResultsView() {
     content = searchResultsPage.map(({ id, image, title, publisher, key }) => (
       <PreviewView
         id={id}
-        active={id === resultId}
+        // active={id === resultId}
+        active={id === recipe.id}
         image={image}
         title={title}
         publisher={publisher}
