@@ -1,24 +1,11 @@
-import { useState } from "react";
-import { API_URL, ICONS_PATH, KEY, MODAL_CLOSE_SEC } from "../config";
-import {
-  addBookmark,
-  setBookmarked,
-  setRecipe,
-  setRecipeId,
-  setSuccessMessage,
-  toggleAddRecipeWindow,
-  useAddRecipeMutation,
-} from "../store";
+import { ICONS_PATH, MODAL_CLOSE_SEC } from "../config";
+import { setSuccessMessage, toggleAddRecipeWindow } from "../store";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import useSubmitRecipe from "../hooks/useSubmitRecipe";
 
 function AddRecipeView() {
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const { successMessage } = useSelector((state) => state.page);
-  // const [successMessage, setSuccessMessage] = useState();
-  const [values, setValues] = useState({
+  const initialValues = {
     title: "TEST23",
     source_url: "TEST23",
     image_url: "TEST23",
@@ -31,75 +18,19 @@ function AddRecipeView() {
     ingredient4: "",
     ingredient5: "",
     ingredient6: "",
-  });
-  // const [addRecipe, results] = useAddRecipeMutation();
-  // const [isHidden, setIsHidden] = useState(false);
+  };
   const { hideAddRecipeWindow } = useSelector((state) => state.page);
-  const recipe = useSelector((state) => state.recipe.data);
+  const { successMessage } = useSelector((state) => state.page);
 
-  const onChangeHandler = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const finallyFn = () => {
+    dispatch(setSuccessMessage("Recipe was successfully uploaded :)"));
+    setTimeout(() => {
+      dispatch(toggleAddRecipeWindow(true));
+    }, [MODAL_CLOSE_SEC * 1000]);
   };
 
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
-
-    try {
-      const ingredients = Object.entries(values)
-        .filter((entry) => entry[0].startsWith("ingredient") && entry[1] !== "")
-        .map((ing) => {
-          // const ingArr = ing[1].replaceAll(' ', '').split(',');
-          const ingArr = ing[1].split(",").map((el) => el.trim());
-
-          if (ingArr.length !== 3)
-            throw new Error(
-              "Wrong ingredient format. Please use the correct format :)"
-            );
-          const [quantity, unit, description] = ingArr;
-          return {
-            quantity: quantity ? +quantity : null,
-            unit,
-            description,
-          };
-        });
-      const recipeToPost = {
-        // id: values.id,
-        title: values.title,
-        publisher: values.publisher,
-        source_url: values.source_url,
-        image_url: values.image_url,
-        servings: +values.servings,
-        cooking_time: +values.cookingTime,
-        ingredients,
-      };
-
-      setIsLoading(true);
-      const { data } = await axios.post(`${API_URL}?key=${KEY}`, recipeToPost);
-      const newRecipe = {
-        ...data.data.recipe,
-        bookmarked: true,
-      };
-      dispatch(setRecipe(newRecipe));
-      dispatch(addBookmark(newRecipe));
-      // dispatch recipeId too????
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-      dispatch(setSuccessMessage("Recipe was successfully uploaded :)"));
-      // setSuccessMessage("Recipe was successfully uploaded :)");
-      setTimeout(() => {
-        dispatch(toggleAddRecipeWindow(true));
-        // setSuccessMessage("");
-      }, [MODAL_CLOSE_SEC * 1000]);
-    }
-    // const { data } = await addRecipe(recipeToAdd);
-    // console.log(data);
-    // dispatch(setRecipe(data));
-    // dispatch(addBookmark(recipe));
-    // dispatch(setBookmarked(true));
-    // dispatch(setRecipeId(data.id));
-  };
+  const { onSubmitHandler, onChangeHandler, error, isSubmiting, formValues } =
+    useSubmitRecipe(initialValues, finallyFn);
 
   const toggleWindow = () => dispatch(toggleAddRecipeWindow());
 
@@ -122,7 +53,7 @@ function AddRecipeView() {
             </div>
             <p>{error}</p>
           </div>
-        ) : isLoading ? (
+        ) : isSubmiting ? (
           <div className="spinner">
             <svg>
               <use href={`${ICONS_PATH}#icon-loader`}></use>
@@ -143,7 +74,7 @@ function AddRecipeView() {
               <h3 className="upload__heading">Recipe data</h3>
               <label>Title</label>
               <input
-                value={values.title}
+                value={formValues.title}
                 required
                 name="title"
                 type="text"
@@ -151,7 +82,7 @@ function AddRecipeView() {
               />
               <label>URL</label>
               <input
-                value={values.source_url}
+                value={formValues.source_url}
                 required
                 name="source_url"
                 type="text"
@@ -159,7 +90,7 @@ function AddRecipeView() {
               />
               <label>Image URL</label>
               <input
-                value={values.image_url}
+                value={formValues.image_url}
                 required
                 name="image_url"
                 type="text"
@@ -167,7 +98,7 @@ function AddRecipeView() {
               />
               <label>Publisher</label>
               <input
-                value={values.publisher}
+                value={formValues.publisher}
                 required
                 name="publisher"
                 type="text"
@@ -175,7 +106,7 @@ function AddRecipeView() {
               />
               <label>Prep time</label>
               <input
-                value={values.cookingTime}
+                value={formValues.cookingTime}
                 required
                 name="cookingTime"
                 type="number"
@@ -183,7 +114,7 @@ function AddRecipeView() {
               />
               <label>Servings</label>
               <input
-                value={values.servings}
+                value={formValues.servings}
                 required
                 name="servings"
                 type="number"
@@ -195,7 +126,7 @@ function AddRecipeView() {
               <h3 className="upload__heading">Ingredients</h3>
               <label>Ingredient 1</label>
               <input
-                value={values.ingredient1}
+                value={formValues.ingredient1}
                 type="text"
                 required
                 name="ingredient1"
@@ -204,7 +135,7 @@ function AddRecipeView() {
               />
               <label>Ingredient 2</label>
               <input
-                value={values.ingredient2}
+                value={formValues.ingredient2}
                 type="text"
                 name="ingredient2"
                 placeholder="Format: 'Quantity,Unit,Description'"
@@ -212,7 +143,7 @@ function AddRecipeView() {
               />
               <label>Ingredient 3</label>
               <input
-                value={values.ingredient3}
+                value={formValues.ingredient3}
                 type="text"
                 name="ingredient3"
                 placeholder="Format: 'Quantity,Unit,Description'"
