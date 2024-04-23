@@ -4,8 +4,9 @@ import { setRecipe } from "../store";
 import axios from "axios";
 import { API_URL, KEY } from "../config";
 
-const useRecipe = ({ recipeId }) => {
+const useRecipe = () => {
   const dispatch = useDispatch();
+  const recipeId = useSelector((state) => state.recipe.resultId);
   const recipe = useSelector((state) => state.recipe.data);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +31,6 @@ const useRecipe = ({ recipeId }) => {
             cookingTime: recipe.cooking_time,
             ...(recipe.key && { key: recipe.key }),
           };
-          console.log("setRecipe", newRecipe);
           dispatch(setRecipe(newRecipe));
         }
       } catch (error) {

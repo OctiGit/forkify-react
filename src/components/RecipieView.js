@@ -11,8 +11,7 @@ import useRecipe from "../hooks/useRecipe";
 
 function RecipeView() {
   const dispatch = useDispatch();
-  const recipeId = useSelector((state) => state.recipe.resultId);
-  const { recipe, error, isLoading } = useRecipe({ recipeId });
+  const { recipe, error, isLoading } = useRecipe();
 
   const updateServingsHandler = (newServings) => {
     if (newServings > 0) {
