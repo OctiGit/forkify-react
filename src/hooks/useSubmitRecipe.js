@@ -57,6 +57,7 @@ const useSubmitRecipe = (initialValues, finallyFn) => {
       };
       dispatch(setRecipe(recipe));
       dispatch(addBookmark(recipe));
+      window.history.pushState(null, "", `#${recipe.id}`); // To change the URL without reloading the page
     } catch (error) {
       setError(error.message);
     } finally {
