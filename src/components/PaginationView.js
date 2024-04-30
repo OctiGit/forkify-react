@@ -5,8 +5,7 @@ import { setPage } from "../store";
 function PaginationView() {
   const dispatch = useDispatch();
   const page = useSelector((state) => state.search.page);
-  const { results } = useSelector((state) => state.search);
-  const { resultsPerPage } = useSelector((state) => state.search);
+  const { results, resultsPerPage } = useSelector((state) => state.search);
 
   const curPage = page;
   const numPages = Math.ceil(results.length / resultsPerPage);

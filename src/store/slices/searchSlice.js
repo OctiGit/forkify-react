@@ -14,16 +14,6 @@ const searchSlice = createSlice({
       state.query = action.payload;
     },
     setSearchResults(state, action) {
-      // const recipes = action.payload;
-      // state.results = recipes.map((rec) => {
-      //   return {
-      //     id: rec.id,
-      //     title: rec.title,
-      //     publisher: rec.publisher,
-      //     image: rec.image_url,
-      //     ...(rec.key && { key: rec.key }),
-      //   };
-      // });
       state.results = action.payload;
     },
     setPage(state, action) {

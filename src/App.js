@@ -5,9 +5,8 @@ import PaginationView from "./components/PaginationView";
 import RecipeView from "./components/RecipieView";
 import ResultsView from "./components/ResultsView";
 import SearchView from "./components/SearchView";
-import { ICONS_PATH } from "./config";
 import "./styles/main.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setBookmarks } from "./store";
 
 function App() {
@@ -34,23 +33,34 @@ function App() {
           <ResultsView />
           <PaginationView />
           <p className="copyright">
-            &copy; Copyright on website project, functionality, design and
-            Forkify Api by {""}
+            Version modified and build in React.js by {""}
             <a
               className="twitter-link"
-              // target="_blank"
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/OctiGit"
+            >
+              Octavio Aicardi
+            </a>
+            {""}, taken from original version {""}
+            <a
+              className="twitter-link"
+              target="_blank"
+              rel="noreferrer"
+              href="https://forkify-v2.netlify.app/"
+            >
+              forkify-v2
+            </a>
+            {""} designed and created by professor {""}
+            <a
+              className="twitter-link"
+              target="_blank"
+              rel="noreferrer"
               href="https://twitter.com/jonasschmedtman"
             >
               Jonas Schmedtmann
             </a>
-            . Transpiling from Javascript to React.js by {""}
-            <a
-              className="twitter-link"
-              // target="_blank"
-              href="https://github.com/OctiGit"
-            >
-              Octavio Aicardi.
-            </a>
+            .
           </p>
         </div>
         <RecipeView />

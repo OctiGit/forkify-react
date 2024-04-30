@@ -20,7 +20,6 @@ function PreviewView({
   };
   return (
     <li key={id} className="preview">
-      {/* <li className="preview"> */}
       <a
         className={`preview__link ${active ? "preview__link--active" : ""}`}
         href={`#${id}`}
